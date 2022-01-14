@@ -1,6 +1,6 @@
 ---
 title: "Assignment 1: Introduction"
-author: "Student Name"
+author: Diane Sanchez
 output: pdf_document
 geometry: margin=2.54cm
 ---
@@ -22,21 +22,21 @@ The completed exercise is due on <>.
 
 1. What are your previous experiences with data analytics, R, and Git? Include both formal and informal training.
 
-> Answer: 
+> Answer: I have no formal or informal traning with data analysitics. I took a GIS class where they taught us a little python at the very end of the class but that was over 4 years ago and I don't remember any of it. 
 
 2. Are there any components of the course about which you feel confident?
 
-> Answer: 
+> Answer: There are not any particulat compents of the course I am feeling particuarly confident in. This is new to me but I am cofident in my ability to learn this new language and put the effort to do well.
 
 3. Are there any components of the course about which you feel apprehensive?
 
-> Answer: 
+> Answer: I feel apprehensive about most compenets of the course. I am worried that I'm saving or destroying the data. I am also worried that I will fall completly behind if I somehow didn't install the program or fork the class repository corectly. 
 
 
 ## 2) GitHub
 
 Provide a link below to your forked course repository in GitHub. Make sure you have pulled all recent changes from the course repository  and that you have updated your course README file. 
 
-> Answer: 
+> Answer: https://github.com/Dianesan14/Environmental_Data_Analytics_2022.git 
 
 
