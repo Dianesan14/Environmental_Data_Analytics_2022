@@ -29,13 +29,14 @@ In this course, we will always open the R project file for the course, and addit
 #i.e., the folder that houses the R Project file.
 
 getwd()
+
 ```
 
 If your working directory is not set to the folder you want, you have several options. The first is to directly code your working directory. You may do this by defining an absolute file path (below). What are the pitfalls of using an absolute file path?
 
 ```{r}
 # Absolute file path is commented out
-setwd("/Users/dianesanchez/Documents/Environmental Data Analytics/Environmental_Data_Analytics_2022/Lessons")
+setwd("/Users/dianesanchez/Documents/Environmental Data Analytics/Environmental_Data_Analytics_2022")
 ```
 
 You may change your working directory without coding by going to the Session menu in RStudio and navigating to the Set Working Directory tab. From there, you may select from a series of options to reset your working directory. 
@@ -78,7 +79,7 @@ library(tidyverse)
 
 Question: What happens in the console when you load a package?
 
-> Answer: 
+> Answer: The data started to download but then they all went away 
 
 ### Import your datasets
 
@@ -98,7 +99,7 @@ Commons functions to import datasets and store as data frames are *read.table()*
 ```{r importdata}
 
 # Relative file path (friendly for users regardless of machine)
-USGS.flow.data <- read.csv("../Data/Raw/USGS_Site02085000_Flow_Raw.csv")  
+USGS.flow.data <- read.csv("./Data/Raw/USGS_Site02085000_Flow_Raw.csv")  
 
 #For knitting the .Rmd file you need to added an extra "." to the relative path
 # R Markdown documents are compiled in separate R sessions to enhance reproducibility, so you current R console has nothing to do with the compilation of the R Markdown documents.
