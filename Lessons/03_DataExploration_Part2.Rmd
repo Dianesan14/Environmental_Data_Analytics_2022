@@ -60,6 +60,10 @@ Visualize count data for categorical variables.
 ```{r, fig.height = 3, fig.width = 4}
 ggplot(USGS.flow.data, aes(x = discharge.mean.approval)) +
   geom_bar()
+
+ggplot(na.omit(USGS.flow.data), aes(x = discharge.mean.approval)) +
+  geom_bar()
+
 ```
 
 ### Histogram (function: geom_histogram)
@@ -67,7 +71,7 @@ ggplot(USGS.flow.data, aes(x = discharge.mean.approval)) +
 Visualize distributions of values for continuous numerical variables. What is happening in each line of code? Insert a comment above each line.
 
 ```{r, fig.height = 3, fig.width = 4}
-#
+#histograph of max discharge
 ggplot(USGS.flow.data) +
   geom_histogram(aes(x = discharge.mean))
 
@@ -100,12 +104,15 @@ ggplot(USGS.flow.data) +
   geom_freqpoly(aes(x = gage.height.min), bins = 50, color = "darkgray") +
   geom_freqpoly(aes(x = gage.height.max), bins = 50,  lty = 2) +
   scale_x_continuous(limits = c(0, 10))
-
+#comparing three types of compenents of data 
 #
 ggplot(USGS.flow.data) +
   geom_freqpoly(aes(x = gage.height.mean, color = gage.height.mean.approval), bins = 50) +
   scale_x_continuous(limits = c(0, 10)) +
-  theme(legend.position = "top")
+  theme(legend.position = "top") #the legend was added to the top 
+#adding another aesthetics category 
+#you can show twp categotigories of data on one plot
+
 
 ```
 ### Box-and-whisker plots (function: geom_boxplot, geom_violin)
@@ -126,15 +133,22 @@ An alternate option is a violin plot, which displays density distributions, some
 #
 ggplot(USGS.flow.data) +
   geom_boxplot(aes(x = gage.height.mean.approval, y = gage.height.mean))
+#mean gage box, we are supplying a numeric value, and y is parcing data into two sets 
+#the line shows the mean of all the records, we are showing the distribution of mediam values and the 
+#little dots are outliers. Categorical and numberical data 
 
 #
 ggplot(USGS.flow.data) +
   geom_boxplot(aes(x = gage.height.mean, y = discharge.mean, group = cut_width(gage.height.mean, 1)))
+#why to discharge mean, we are taking diffent slices of data to analyze, the group command is how we define our data.Cut with is cutting our data, ditribution of values in the gage height mean. we have two numberic categories and are slicing the data 
+#r-plot looking at distibutions along slices of data 
 
 #
 ggplot(USGS.flow.data) +
   geom_violin(aes(x = gage.height.mean.approval, y = gage.height.mean), 
               draw_quantiles = c(0.25, 0.5, 0.75))
+#shows distribution
+
 ```
 
 ### Scatterplot (function: geom_point)
@@ -143,28 +157,32 @@ Visualize relationships between continuous numerical variables.
 ```{r, fig.height = 3, fig.width = 4}
 ggplot(USGS.flow.data) +
   geom_point(aes(x = discharge.mean, y = gage.height.mean))
+#points is a row in our data points 
+
 
 ggplot(USGS.flow.data) +
   geom_point(aes(x = datetime, y = discharge.mean))
+#hybrid btwn categorical and continuous 
+#mean discharges at different times 
 ```
 
 Question: under what circumstances would it be beneficial to use each of these graph types (bar plot, histogram, frequency polygon, box-and whisker, violin, scatterplot)?
 
-> Answer: 
+> Answer: For the bar plot, it would be usefull to use if you want to see a quick visualiztion, for a hsitogram it would be usefule when you want to compare data using specific  ranges, the frequency polygon would be useful when you want to see the shape of the distribution, box-and whisker and violin will be useful when you want to visually see the distribution of the data  and scatterplot is useful when you want to observer realtionships between data, it is the hyprid between categorical and conditional data. 
 
 ## Ending discussion
 
 What did you learn about the USGS discharge dataset today? What separate insights did the different graph types offer?
-> Answer: 
+> Answer: I learned that there is a lot of data missing. 
 
 
 How can multiple options for data exploration inform our understanding of our data?
 
-> Answer: 
+> Answer: Differnt plots can highlight something that was not visually in previous graphs. But also, a pricture is easier to understand then looking at a data set and reading numbers, visiualiztion helps the reader. 
 
 
 Do you see any patterns in the USGS data for the Eno River? What might be responsible for those patterns and/or relationships?
 
-> Answer: 
+> Answer: The higher the gagehight the higher the distribution, maybe be the measure isn't close enough to get a good read?
 
 
