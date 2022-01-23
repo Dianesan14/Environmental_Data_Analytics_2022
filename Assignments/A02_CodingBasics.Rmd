@@ -66,15 +66,18 @@ mean(response_rate_GD)> median(response_rate_GD)
 #student_test_score
 student <- c ('Sam', 'LD', 'Phil', 'Abbey', 'Jarius', 'Geroldine')
 Score <- c ( 100 , 90 , 80 , 70 , 60 , 40 )
-passed_test <- c( "TRUE", "TRUE", "TRUE", "TRUE", "TRUE", "FALSE")
+passed_test <- c( TRUE, TRUE, TRUE, TRUE, TRUE, FALSE)
 
-student_test_score <- data.frame(student, Score, passed_test)
-  
+student_test_score <- data.frame("Names"=student,"TestScores"= Score,"Test Results"=passed_test)
+student_test_score
+
+#this is a data frame of studnet test results and whether they passed or not. 
+
 ```
 
 9. QUESTION: How is this data frame different from a matrix?
 
-> Answer: A data frame allows for multiple forms of data to be analyzed on a table while a matrix is used to analyze same type of data. 
+> Answer: A data frame allows for multiple forms of data to be analyzed, while a matrix is used to analyze same type of data. For example question 8 would only work with a data frame becuase it is a combination of diffent vectors (names, test scores, and if students passed), the matrix could not do that. 
 
 10. Create a function with an if/else statement. Your function should determine whether a test score is a passing grade of 50 or above (TRUE or FALSE). You will need to choose either the `if` and `else` statements or the `ifelse` statement. Hint: Use `print`, not `return`. The name of your function should be informative.
 
@@ -82,11 +85,25 @@ student_test_score <- data.frame(student, Score, passed_test)
 
 ```{r}
 
-# ( student_test_score) <- function( x ) {ifelse x >= 50,  print(TRUE), print(FALSE)}
+Pass_failure <- function(x) {
+   if (x>50) {
+return (TRUE) 
+} 
+else {
+return (FALSE)
+}
+  }
+Pass_failure (student_test_score$TestScores)
 
-  
+Pass_fail <- function(x) {
+  ifelse (x >= 50, TRUE, FALSE) 
+  }
+Pass_fail (student_test_score$TestScores)
+
+#this is a function of whether the studnet passed their test or not.  
 ```
 
 12. QUESTION: Which option of `if` and `else` vs. `ifelse` worked? Why?
 
->  Answer: ifelse worked becuase there 
+>  Answer: the if else function can only it process one value at a time. As expalined in the erros message the if statement will only run on the first element, so in my case since the first value on my data frame was large than 50, the restult was true. 
+ifelse worked becuase it goes through all the values in the vector and will assign either true or false based on what the data values your assigned. 
