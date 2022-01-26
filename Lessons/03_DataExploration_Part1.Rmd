@@ -63,8 +63,8 @@ If a package is already installed, you will need to load it every session. You c
 
 ```{r packages}
 # We will use the packages dplyr and ggplot2 regularly. 
-install.packages("dplyr") 
-install.packages("ggplot2")
+#install.packages("dplyr") 
+#install.packages("ggplot2")
 # comment out install commands, use only when needed and re-comment
 
 library(dplyr)
@@ -96,9 +96,14 @@ Commons functions to import datasets and store as data frames are *read.table()*
 * *dec =* : define *dec="."* or *dec=","* depending on how it's defined on your set. The default is ".".
 
 ```{r importdata}
+read.csv("/Users/dianesanchez/Documents/Environmental Data Analytics/Environmental_Data_Analytics_2022/Data/Raw/USGS_Site02085000_Flow_Raw.csv")
 
 # Relative file path (friendly for users regardless of machine)
-USGS.flow.data <- read.csv("../Data/Raw/USGS_Site02085000_Flow_Raw.csv")  
+getwd()
+USGS.flow.data <- read.csv("./Data/Raw/USGS_Site02085000_Flow_Raw.csv", stringsAsFactors = TRUE) #../Data/Raw/USGS_Site02085000_Flow_Raw.csv"  
+#if you are using relative paths you might need one or two dots. 
+#stringsAsFactors = TRUE instead of imporitng as characters it would import as Factors. you need to make sure strings to be factors 
+#
 
 #For knitting the .Rmd file you need to added an extra "." to the relative path
 # R Markdown documents are compiled in separate R sessions to enhance reproducibility, so you current R console has nothing to do with the compilation of the R Markdown documents.
@@ -153,7 +158,7 @@ summary(USGS.flow.data)  #could point to column only with $
 ```
 
 What happened to blank cells in the spreadsheet when they were imported into R?
-> Answer: 
+> Answer: they stay blank or are NA 
 
 ## Adjusting Datasets
 
@@ -167,7 +172,8 @@ summary(USGS.flow.data$gage.height.mean)
 ```
 Question: What types of research questions might make it favorable to remove NAs from a dataset, and what types of research questions might make it favorable to retain NAs in the dataset?
 
-> Answer: 
+> Answer: you want to remove Na when you are dealing with a large data set and only want to work with data that is present. you would keep N/A when you want to show the amoutn of missing data? you would also remove NA when you want to work with compelte data 
+
 
 ```{r removeNA}
 USGS.flow.data.complete <- na.omit(USGS.flow.data)
@@ -201,10 +207,13 @@ In some cases when dates are provided as integers, you may need to provide an or
 help(as.Date)
 
 # Adjust date formatting for today 
-# Write Code for three differnt date formats 
+# Write Code for three different date formats 
 # An example is 
 
-USGS.flow.data$datetime <- as.Date(USGS.flow.data$datetime, format = "%m/%d/%y") 
+USGS.flow.data$datetime <- as.Date(USGS.flow.data$datetime, format = "%m/%d/%y")
+
+
+#USGS.flow.data$datetime <- as.Date(USGS.flow.data$datetime, format = "%m%d%y")
 ```
 
 Note that for every date prior to 1969, R has assigned the date in the 2000s rather than the 1900s. This can be fixed with an `ifelse` statement inside a function. Run through the code below and write what is happening in the comment above each line.
@@ -232,7 +241,7 @@ We just edited our raw dataset into a processed form. We may want to return to t
 
 ```{r savingdata}
 # Note the added "." again for .Rmd 
-write.csv(USGS.flow.data, file = "../Data/Processed/USGS_Site02085000_Flow_Processed.csv", row.names=FALSE)
+write.csv(USGS.flow.data, file = "./Data/Processed/USGS_Site02085000_Flow_Processed.csv", row.names=FALSE)
 
 ```
 
@@ -268,4 +277,5 @@ write.csv(USGS.flow.data, file = "../Data/Processed/USGS_Site02085000_Flow_Proce
 *Spaces in column names will be replaced with a `.` when imported into R. When designing spreadsheets, avoid spaces in column headers. 
 
 *Avoid symbols in column headers. This can cause issues when importing into R.
+
 
