@@ -18,38 +18,45 @@ knitr::opts_chunk$set(echo = TRUE)
 R treats objects differently based on their characteristics. For more information, please see: https://www.statmethods.net/input/datatypes.html. 
 
 * **Vectors** 1 dimensional structure that contains elements of the same type.
+#one dimemsional sturcture, a list of elements 
 
 * **Matrices** 2 dimensional structure that contains elements of the same type.
+#two dimenstional struction 
 
 * **Arrays** Similar to matrices, but can have more than 2 dimensions. We will not delve into arrays in depth.
+#an element that can be analyzed by multiople dimentions 
 
 * **Lists** Ordered collection of elements that can have different modes.
 
+
 * **Data Frames** 2 dimensional structure that is more general than a matrix. Columns can have different modes (e.g., numeric and factor). When we import csv files into the R workspace, they will enter as data frames.
+#different modes, there is a lot more freedom with data frames. They need to have all colomns with same lengths and if you don't know the data you must fill with NA 
 
 Define what each new piece of syntax does below (i.e., fill in blank comments). Note that the R chunk has been divided into sections (# at beginning of line, ---- at end)
 ```{r}
 # Vectors ----
 vector1 <- c(1,2,5.3,6,-2,4) # numeric vector
 vector1
-vector2 <- c("one","two","three") # character vector
+vector2 <- c("one","two","three") # character vector #you have to use the quotes so that r knows what to name the values 
 vector2
-vector3 <- c(TRUE,TRUE,TRUE,FALSE,TRUE,FALSE) #logical vector
+vector3 <- c(TRUE,TRUE,TRUE,FALSE,TRUE,FALSE) #logical vector #vectors with true or false, you don't need quotes but they need to be capital 
 vector3
 
 vector1[3] # 
+#if you want to find an element is another vector
 
 # Matrices ----
-matrix1 <- matrix(1:20, nrow = 5,ncol = 4) # 
+matrix1 <- matrix(1:20, nrow = 5,ncol = 4) # you need to specify number of rows and columns, it fills out all of column one first and then moves to the next row
 matrix1
-matrix2 <- matrix(1:20, nrow = 5, ncol = 4, byrow = TRUE) #
+matrix2 <- matrix(1:20, nrow = 5, ncol = 4, byrow = TRUE) #this will fill the data by row 
 matrix2
 matrix3 <- matrix(1:20, nrow = 5, ncol = 4, byrow = TRUE, # return after comma continues the line
                   dimnames = list(c("uno", "dos", "tres", "cuatro", "cinco"), 
-                                  c("un", "deux", "trois", "cat"))) #
+                                 c("un", "deux", "trois", "cat"))) #
+matrix3 
 
-matrix1[4, ] #
-matrix1[ , 3] #
+matrix1[4, ] #we are just looking for row 4 and want all columns 
+matrix1[ , 3] #we are just looking for column 3 in maxtrix 1 
 matrix1[c(12, 14)] #
 matrix1[c(12:14)] #
 matrix1[2:4, 1:3] #
@@ -66,24 +73,17 @@ list1 <- list(name = "Maria", mynumbers = vector1, mymatrix = matrix1, age = 5.3
 list1[[2]]
 
 # Data Frames ----
-d <- c(1, 2, 3, 4) # What type of vector?
-e <- c("red", "white", "red", NA) # What type of vector?
-f <- c(TRUE, TRUE, TRUE, FALSE) # What type of vector?
-dataframe1 <- data.frame(d,e,f) #
-names(dataframe1) <- c("ID","Color","Passed"); View(dataframe1) # 
 
-dataframe1[1:2,] # 
-dataframe1[c("ID","Passed")] # 
 dataframe1$ID
 
 ```
 Question: How do the different types of data appear in the Environment tab?
 
-> Answer: 
+> Answer: Data, values, function 
 
 Question: In the R chunk below, write "dataframe1$". Press `tab` after you type the dollar sign. What happens?
 
-> Answer: 
+> Answer: The teab show you need help finding the name of the object, you can do this in the console, and when you start typing in the counsole it will start to give suggestions  
 
 
 
@@ -93,19 +93,33 @@ Question: In the R chunk below, write "dataframe1$". Press `tab` after you type 
 Find a ten-day forecast of temperatures (Fahrenheit) for Durham, North Carolina. Create two vectors, one representing the high temperature on each of the ten days and one representing the low.
 
 ```{r}
+high_temp <- c(49, 58, 39, 41, 44, 37, 41, 51, 52, 52)
+high_temp
+low_temp <- c(30, 30, 18, 26, 26, 18, 26, 26, 26, 28 )
+low_temp
 
 ```
 
 Now, create two additional vectors that include the ten-day forecast for the high and low temperatures in Celsius. Use a function to create the two new vectors from your existing ones in Fahrenheit.
 
 ```{r}
+fahrenhiet.to.celsius <- function(high_temp) {
+  (high_temp-32/1.8)
+}
+fahrenhiet.to.celsius(high_temp)
+fahrenhiet.to.celsius(low_temp)
 
 ```
 
 Combine your four vectors into a data frame and add informative column names.
 
 ```{r}
-
+#data_frame
+#durham_temp 
+high_temp
+low_temp
+Durham_weather <- data.frame("Durham High Temp"=high_temp, "Durham Low Temp"=low_temp)
+Durham_weather
 ```
 
 Use the common functions `summary` and `sd` to obtain basic data summaries of the ten-day forecast. How would you call these functions differently for the entire data frame vs. a single column? Attempt to demonstrate both options below.
@@ -134,8 +148,8 @@ Remember formatting of dates in R:
 # (code must be uncommented)
 today <- Sys.Date()
 format(today, format = "%B")
-#format(today, format = "")
-#format(today, format = "")
+format(today, format = "%y")
+format(today, format = "%m-%d-%Y")
 #format(today, format = "")
 
 ```
@@ -148,7 +162,7 @@ Install and load the package lubridate into your R session. Lubridate offers fas
 More info on lubridate [here][https://cran.r-project.org/web/packages/lubridate/lubridate.pdf].
 
 ```{r DateExercise1}
-#install.packages("lubridate")
+install.packages("lubridate")
 library(lubridate)
 
 #Ex1
@@ -156,6 +170,7 @@ str_today <- "2021-feb-3"
 #Since the format is year-month-day we will use function ymd()
 date_obj_today <- ymd(str_today)
 date_obj_today
+#funtion to make the character of the date into a function
 
 #Ex2
 str_today <- "21-feb-3"

@@ -29,7 +29,8 @@ library(tidyverse)
 library(lubridate)
 NTL.phys.data <- read.csv("./Data/Raw/NTL-LTER_Lake_ChemistryPhysics_Raw.csv", stringsAsFactors = TRUE)
 
-colnames(NTL.phys.data)
+
+colnames(NTL.phys.data) #a
 head(NTL.phys.data)
 summary(NTL.phys.data)
 str(NTL.phys.data)
@@ -63,25 +64,28 @@ vignette("dplyr")
 Filtering allows us to choose certain rows (observations) in our dataset.
 
 Here are the relevant commands used in the `filter` function. Add some notes to designate what these commands mean. 
-`==`
-`!=`
-`<`
-`<=`
-`>`
-`>=`
+`==` equal 
+`!=`differnet 
+`<`less than 
+`<=`less than = to
+`>`greater than
+`>=` greater than = to 
 `&`
-`|`
+`|`one or the other should be true 
 
 ```{r}
 class(NTL.phys.data$lakeid)
 class(NTL.phys.data$depth)
+#when filtering you can only compare same classes 
 
 # matrix filtering
 NTL.phys.data.surface1 <- NTL.phys.data[NTL.phys.data$depth == 0,]
+#filtering rows that have 0 in the depth column 
 
 # dplyr filtering
 NTL.phys.data.surface2 <- filter(NTL.phys.data, depth == 0)
 NTL.phys.data.surface3 <- filter(NTL.phys.data, depth < 0.25)
+
 
 # Did the methods arrive at the same result?
 head(NTL.phys.data.surface1)
@@ -98,14 +102,17 @@ NTL.phys.data.PeterPaul2 <- filter(NTL.phys.data, lakename != "Central Long Lake
                                      lakename != "Crampton Lake" & lakename != "East Long Lake" &
                                      lakename != "Hummingbird Lake" & lakename != "Tuesday Lake" &
                                      lakename != "Ward Lake" & lakename != "West Long Lake")
+#peter paul 2 is excluding the lakes you don't want- this is exculting those names 
 NTL.phys.data.PeterPaul3 <- filter(NTL.phys.data, lakename %in% c("Paul Lake", "Peter Lake"))
+#this will be useful when you have to use more than two elements 
+
 
 # Choose a range of conditions of a numeric or integer variable
-summary(NTL.phys.data$daynum)
-NTL.phys.data.JunethruOctober1 <- filter(NTL.phys.data, daynum > 151 & daynum < 305)
-NTL.phys.data.JunethruOctober2 <- filter(NTL.phys.data, daynum > 151, daynum < 305)
-NTL.phys.data.JunethruOctober3 <- filter(NTL.phys.data, daynum >= 152 & daynum <= 304)
-NTL.phys.data.JunethruOctober4 <- filter(NTL.phys.data, daynum %in% c(152:304))
+summary(NTL.phys.data$daynum) #opening data set and checking the number where observations start, you look at the data and select the values you want to see 
+NTL.phys.data.JunethruOctober1 <- filter(NTL.phys.data, daynum > 151 & daynum < 305)#with > value 151 will not be included and < 305 becasue it will not select 205 
+NTL.phys.data.JunethruOctober2 <- filter(NTL.phys.data, daynum > 151, daynum < 305) #the comma means combination of both 
+NTL.phys.data.JunethruOctober3 <- filter(NTL.phys.data, daynum >= 152 & daynum <= 304)#if you want to use the actual number you have to use >= or <= 
+NTL.phys.data.JunethruOctober4 <- filter(NTL.phys.data, daynum %in% c(152:304))#with %n% a value matching operating whatever is in the vector is what is going to be included in the code 
 
 # Exercise: 
 # filter NTL.phys.data for the year 1999
@@ -131,6 +138,8 @@ NTL.phys.data.depth.descending <- arrange(NTL.phys.data, desc(depth))
 
 # Exercise: 
 # Arrange NTL.phys.data by temperature, in descending order. 
+
+
 # Which dates, lakes, and depths have the highest temperatures?
 
 
@@ -166,7 +175,7 @@ NTL.phys.data.PeterPaul1 <- select(NTL.phys.data.PeterPaul1, lakeid:daynum, mont
 
 # find out the start and end dates of the dataset
 interval(NTL.phys.data.PeterPaul1$sampledate[1], NTL.phys.data.PeterPaul1$sampledate[21613])
-interval(first(NTL.phys.data.PeterPaul1$sampledate), last(NTL.phys.data.PeterPaul1$sampledate))
+interval(first(NTL.phys.data.PeterPaul1$sampledate), last(NTL.phys.data.PeterPaul1$sampledate))#this is better for any size of datasets 
 ```
 
 
@@ -185,7 +194,7 @@ NTL.phys.data.processed <-
   
 ```
 
-Notice that we did not place the dataset name inside the wrangling function but rather at the beginning.
+Notice that we did not place the dataset name inside the wrangling function but rather at the beginning. 
 
 ### Saving processed datasets
 
@@ -196,5 +205,5 @@ write.csv(NTL.phys.data.PeterPaul1, row.names = FALSE, file = "./Data/Processed/
 ## Closing Discussion
 
 When we wrangle a raw dataset into a processed dataset, we create a code file that contains only the wrangling code. We then save the processed dataset as a new spreadsheet and then create a separate code file to analyze and visualize the dataset. Why do we keep the wrangling code separate from the analysis code?
-
+we don't want to do everything in the same document bc the rmd file will be really long and having diffent files makes it easier to navigate the data 
 
