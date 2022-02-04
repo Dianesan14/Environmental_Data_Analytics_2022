@@ -43,30 +43,35 @@ Filtering allows us to choose certain rows (observations) in our dataset.
 class(NTL.phys.data$lakeid)
 class(NTL.phys.data$depth)
 
+#you have to know how the data is stored so you knwo what to add to yout code 
+
 # dplyr filtering
 NTL.phys.data.surface <- filter(NTL.phys.data, depth == 0)
 
 # Choose multiple conditions to filter
-summary(NTL.phys.data$lakename)
-NTL.phys.data.PeterPaul <- filter(NTL.phys.data, lakename %in% c("Paul Lake", "Peter Lake"))
+summary(NTL.phys.data$lakename) #this will show you all the lakes 
+NTL.phys.data.PeterPaul <- filter(NTL.phys.data, lakename %in% c("Paul Lake", "Peter Lake")) #c creates vectors with more than one element 
 
 # Choose a range of conditions of a numeric or integer variable
 summary(NTL.phys.data$daynum)
-NTL.phys.data.JunethruOctober <- filter(NTL.phys.data, daynum %in% c(152:304))
+NTL.phys.data.JunethruOctober <- filter(NTL.phys.data, daynum %in% c(152:304)) #
 
 # Exercise 1: 
 # filter NTL.phys.data for the year 1999
 # what code do you need to use, based on the class of the variable?
 
+NTL.phys.data.year1999 <- filter(NTL.phys.data, year4 == 1999)
 
 # Exercise 2: 
 # filter NTL.phys.data for Tuesday Lake from 1990 through 1999.
+NTL.phys.data.Tuesday.Lake <- filter (NTL.phys.data, lakename == "Tuesday Lake")
+NTL.phys.data.Tuesday.1990to1999 <- filter(NTL.phys.data.Tuesday.Lake, year4 %in% c(1990:1999))
 
-
+#come back to this the code didn't work 
 ```
 Question: Why don't we filter using row numbers?
 
-> Answer: 
+> Answer:  
 
 ## Pipes
 
@@ -82,14 +87,20 @@ NTL.phys.data.processed <-
   mutate(temperature_F = (temperature_C*9/5) + 32)
 
 #Exercise 3: Using a pipe filter NTL.phys.data for Tuesday Lake from 1990 through 1999 only for July 
-
-
-
-
+NTL.phys.data.Tuesday.July <- 
+  NTL.phys.data %>%
+  filter(lakename == "Tuesday Lake") %>%
+  filter(year4 %in% c(1990-1999)) %>%
+  filter (month(sampledate) == 7)
 
 #Exercise 4: Using the data from part 3, a pipe and the summarise() function find the mean surface temperature (hints: you will need to add another filter for depth==0). Make sure you eliminate NAs before computing the means
-
+NTL.phys.data.Tuesday.July 
+  NTL.phys.data.
+  filter (depth == 0 ) %>%
+    filter(!is.na(temperature_C)) %>%
+    
   
+    
 ```
 
 ## Gather and Spread
