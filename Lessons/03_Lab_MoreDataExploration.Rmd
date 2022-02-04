@@ -52,8 +52,13 @@ matrix2 <- matrix(1:20, nrow = 5, ncol = 4, byrow = TRUE) #this will fill the da
 matrix2
 matrix3 <- matrix(1:20, nrow = 5, ncol = 4, byrow = TRUE, # return after comma continues the line
                   dimnames = list(c("uno", "dos", "tres", "cuatro", "cinco"), 
+<<<<<<< HEAD
                                  c("un", "deux", "trois", "cat"))) #
 matrix3 
+=======
+                                  c("un", "deux", "trois", "cat"))) #
+matrix3
+>>>>>>> b3c7106116c07efb5453f2e1b6ba3c74dfab9fdd
 
 matrix1[4, ] #we are just looking for row 4 and want all columns 
 matrix1[ , 3] #we are just looking for column 3 in maxtrix 1 
@@ -75,6 +80,7 @@ list1[[2]]
 # Data Frames ----
 
 dataframe1$ID
+
 
 ```
 Question: How do the different types of data appear in the Environment tab?
@@ -202,11 +208,11 @@ fixed_date_obj_past
 #Fix for century issue
 str_past <- "55-feb-3"
 #Alternative 1
-date_obj_past <- fast_strptime(str_past,"%y-%b-%d",cutoff_2000=21L)
+date_obj_past <- fast_strptime(str_past,"%y-%b-%d",cutoff_2000=22L)
 date_obj_past
 
 #Alternative 2
-date_obj_past2 <- parse_date_time2(str_past,"ymd",cutoff_2000=21L)
+date_obj_past2 <- parse_date_time2(str_past,"ymd",cutoff_2000=22L)
 date_obj_past2
 
 #Functions ymd(), mdy(), ydm() do not take argument cutoff_2000
