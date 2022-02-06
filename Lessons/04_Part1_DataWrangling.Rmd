@@ -159,6 +159,7 @@ Mutating allows us to add new columns that are functions of existing columns. Op
 ```{r}
 
 NTL.phys.data.temps <- mutate(NTL.phys.data.temps, temperature_F = (temperature_C*9/5) + 32)
+#mutate then add new column name = existing data in the OG coulnm 
 
 ```
 

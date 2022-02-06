@@ -86,7 +86,7 @@ NTL.phys.data.processed <-
   select(lakename, sampledate:temperature_C) %>%
   mutate(temperature_F = (temperature_C*9/5) + 32)
 
-#Exercise 3: Using a pipe filter NTL.phys.data for Tuesday Lake from 1990 through 1999 only for July 
+#Exercise 3: Using a pipe filter NTL.phys.data for Tuesday Lake from 1990 through 1999 only for July  
 NTL.phys.data.Tuesday.July <- 
   NTL.phys.data %>%
   filter(lakename == "Tuesday Lake") %>%

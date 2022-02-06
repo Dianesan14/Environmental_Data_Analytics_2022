@@ -1,8 +1,10 @@
 ---
 title: "Assignment 4: Data Wrangling"
-author: "Student Name"
+author: Diane Sanchez , 1
 output: pdf_document
 geometry: margin=2.54cm
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## OVERVIEW
@@ -25,24 +27,75 @@ The completed exercise is due on Monday, Feb 7 @ 7:00pm.
 
 ```{r, message = FALSE}
 #1
+getwd()
+library(tidyverse) 
+library(lubridate)
 
-#2
+EPA_Air_2018_O3 <- read.csv("./Data/Raw/EPAair_O3_NC2018_raw.csv", stringsAsFactors = TRUE)
+EPA_Air_2019_O3 <- read.csv("./Data/Raw/EPAair_O3_NC2019_raw.csv", stringsAsFactors = TRUE)
+EPA_Air_2018_PM25 <- read.csv("./Data/Raw/EPAair_PM25_NC2018_raw.csv", stringsAsFactors = TRUE)
+EPA_Air_2019_PM25 <- read.csv("./Data/Raw/EPAair_PM25_NC2019_raw.csv", stringsAsFactors = TRUE)
+
+#2 
+dim(EPA_Air_2018_O3)
+colnames(EPA_Air_2018_O3) 
+str(EPA_Air_2018_O3)
+
+dim(EPA_Air_2019_O3)
+colnames(EPA_Air_2019_O3) 
+str(EPA_Air_2019_O3)
+
+dim(EPA_Air_2018_PM25)
+colnames(EPA_Air_2018_PM25) 
+str(EPA_Air_2018_PM25)
+
+dim(EPA_Air_2019_PM25)
+colnames(EPA_Air_2019_PM25) 
+str(EPA_Air_2019_PM25)
+
 ```
 
 ## Wrangle individual datasets to create processed files.
 3. Change date to a date object
 4. Select the following columns: Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE
 5. For the PM2.5 datasets, fill all cells in AQS_PARAMETER_DESC with "PM2.5" (all cells in this column should be identical).
-6. Save all four processed datasets in the Processed folder. Use the same file names as the raw files but replace "raw" with "processed".
+ 6. Save all four processed datasets in the Processed folder. Use the same file names as the raw files but replace "raw" with "processed".
 
 ```{r}
 #3
+EPA_Air_2018_O3$Date <- as.Date(EPA_Air_2018_O3$Date, format = "%m/%d/%Y")
+EPA_Air_2019_O3$Date <- as.Date(EPA_Air_2019_O3$Date, format = "%m/%d/%Y")
+EPA_Air_2018_PM25$Date <- as.Date(EPA_Air_2018_PM25$Date, format = "%m/%d/%Y")
+EPA_Air_2019_PM25$Date <- as.Date(EPA_Air_2019_PM25$Date, format = "%m/%d/%Y")
 
 #4
+EPA_Air_2018_O3_subset <- select(EPA_Air_2018_O3, 
+                                 Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, 
+                                 SITE_LATITUDE, SITE_LONGITUDE)
+EPA_Air_2019_O3_subset <- select(EPA_Air_2019_O3, 
+                                 Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY,
+                                 SITE_LATITUDE, SITE_LONGITUDE)
+EPA_Air_2018_PM25_subset <- select(EPA_Air_2018_PM25, 
+                                   Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC,
+                                   COUNTY,SITE_LATITUDE, SITE_LONGITUDE)
+EPA_Air_2019_PM25_subset <- select(EPA_Air_2019_PM25, 
+                                   Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC,
+                                   COUNTY,SITE_LATITUDE, SITE_LONGITUDE)
 
-#5
+EPA_Air_2018_PM25_subset <- mutate(EPA_Air_2018_PM25_subset, AQS_PARAMETER_DESC= "PM2.5")
+EPA_Air_2019_PM25_subset <- mutate(EPA_Air_2019_PM25_subset, AQS_PARAMETER_DESC= "PM2.5")
+
 
 #6
+write.csv(EPA_Air_2018_O3_subset, row.names = FALSE, 
+          "./Data/Processed/EPA_Air_2018_O3_subset.csv")
+write.csv(EPA_Air_2018_PM25_subset, row.names = FALSE, 
+          "./Data/Processed/EPA_Air_2018_PM25_subset.csv")
+
+write.csv(EPA_Air_2019_PM25_subset, row.names = FALSE, 
+          "./Data/Processed/EPA_Air_2019_PM25_subset.csv")
+write.csv(EPA_Air_2019_O3_subset,row.names = FALSE,
+          "./Data/Processed/EPA_Air_2019_O3_subset.csv")
 
 ```
 
@@ -57,19 +110,36 @@ The completed exercise is due on Monday, Feb 7 @ 7:00pm.
 * Hint: the dimensions of this dataset should be 14,752 x 9.
 
 9. Spread your datasets such that AQI values for ozone and PM2.5 are in separate columns. Each location on a specific date should now occupy only one row.
+
 10. Call up the dimensions of your new tidy dataset.
+
 11. Save your processed dataset with the following file name: "EPAair_O3_PM25_NC2122_Processed.csv"
 
 ```{r}
 #7
+EPA_Air_data_combined <- rbind (EPA_Air_2019_PM25_subset, EPA_Air_2018_PM25_subset, EPA_Air_2018_O3_subset, EPA_Air_2019_O3_subset)
 
 #8
+EPA_Air_data_combined_processed <- 
+  EPA_Air_data_combined %>%
+  filter(Site.Name %in% c("Linville Falls", "Durham Armory", "Leggett", "Hattie Avenue", "Clemmons Middle", "Mendenhall School", "Frying Pan Mountain", "West Johnston Co.", "Garinger High School", "Castle Hayne", "Pitt Agri. Center", "Bryson City", "Millbrook School")) %>%
+  group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>%
+  summarise (meanAQI = mean(EPA_Air_data_combined$DAILY_AQI_VALUE),
+            meanlat = mean(EPA_Air_data_combined$SITE_LATITUDE),
+            meanlong = mean(EPA_Air_data_combined$SITE_LONGITUDE)) %>%
+  mutate (Month = month (Date)) %>%
+  mutate (Year = year (Date))
 
 #9
+EPA_Air_data_combined_processed_byO_PM <-
+  spread (EPA_Air_data_combined_processed, AQS_PARAMETER_DESC, meanAQI)
 
 #10
+dim(EPA_Air_data_combined_processed_byO_PM ) 
 
 #11
+write.csv(EPA_Air_data_combined_processed_byO_PM ,row.names = FALSE,
+          "./Data/Processed/EPA_Air_data_combined_processed_byO_PM .csv")
 
 ```
 
@@ -83,13 +153,21 @@ The completed exercise is due on Monday, Feb 7 @ 7:00pm.
 
 
 ```{r}
-#12(a,b)
+#12(a,b)EPA_Air_data_combined_processed
+EPA_Air_summary <- 
+  EPA_Air_data_combined_processed_byO_PM %>%
+  group_by(Site.Name, Month, Year) %>%
+  summarise ( meanOzone = mean(Ozone), 
+             meanPM2.5 = mean(PM2.5)) %>%
+  drop_na(meanOzone) %>%
+  drop_na(meanPM2.5)
 
 
-#13
+#13 
+dim(EPA_Air_summary) 
 
 ```
 
 14. Why did we use the function `drop_na` rather than `na.omit`?
 
-> Answer: 
+> Answer: We used drop_na because this function removes rows that have na. Na omit removes vectors, columns, or matrix. Since we wanted to remove the rows with NA we had to use drop_na 
