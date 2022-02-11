@@ -66,7 +66,7 @@ Here are some commonly used layers for plotting in ggplot:
 * geom_text
 
 ### Aesthetics
-Here are some commonly used aesthetic types that can be manipulated in ggplot: 
+Here are some commonly used aesthetic types that can be manipulated in ggplot:
 
 * color
 * fill
@@ -82,13 +82,14 @@ Here are some commonly used aesthetic types that can be manipulated in ggplot:
   #geom_point()
 
 ggplot(EPAair, aes(x = Date, y = Ozone)) + 
-  geom_point()
+  geom_point() 
 
 O3plot <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone))
-print(O3plot)
+print(O3plot) 
 
-#first line you add data frame and the second layer you add aes. 
+#first line you add data frame and the second layer you add aes.
+#datafram should always be in the first spot, when you want to add layers to ggplo you use the +, the plus is the operator. 
 
 # Fix this code
 O3plot2 <- ggplot(EPAair) +
@@ -120,6 +121,7 @@ PMplot.faceted2 <-
   geom_point() +
   facet_grid(Site.Name ~ Year) 
 print(PMplot.faceted2)
+#you can always plot a subset of the data frame
 
 # Plot true time series with geom_line
 PMplot.line <- 
