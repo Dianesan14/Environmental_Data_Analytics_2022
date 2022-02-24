@@ -99,10 +99,6 @@ PeterPaul_plot3 <-
            geom_point(aes(color=menaLat), alpha = 0.5) +
   
   
-  
-           
-
-
 
 ```
 

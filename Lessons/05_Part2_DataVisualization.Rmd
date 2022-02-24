@@ -173,7 +173,7 @@ NvsP <-
   ggplot(PeterPaul.chem.nutrients, aes(x = tp_ug, y = tn_ug, color = depth, shape = lakename)) +
   geom_point() 
 print(NvsP)
-
+ 
 # let's first make the plot look better.
 # change your axis labels to reflect TN and TP in micrograms per liter.
 # change your legend labels
@@ -215,6 +215,7 @@ A useful guide for aligning plots by axis can be found here: https://wilkelab.or
 install.packages("cowplot")
 library(cowplot)
 plot_grid(NvsP2, Nutrientplot, nrow = 2, align = 'h', rel_heights = c(1.25, 1))
+
 #compbined both plots together rel_heighter adjusted the space for the plots because one might need more space than the other 
 #you need to use this to show it in the matrix 
 ```
